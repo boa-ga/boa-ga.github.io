@@ -3026,7 +3026,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!********************************!*\
   !*** multi ./src/polyfills.ts ***!
   \********************************/
@@ -3038,5 +3038,5 @@ module.exports = __webpack_require__(/*! /home/runner/work/boa-ga/boa-ga/client/
 
 /***/ })
 
-},[[2,"runtime"]]]);
+},[[3,"runtime"]]]);
 //# sourceMappingURL=polyfills-es2015.js.map
