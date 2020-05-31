@@ -901,7 +901,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(function (response) {
             var serverError = response.error;
 
-            _this.notificationService.showMessage(serverError.errorMessage);
+            _this.notificationService.showMessage(serverError.errorMessage || response.message);
 
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["throwError"])(response);
           }));
@@ -982,7 +982,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(TokenInterceptor, [{
         key: "intercept",
         value: function intercept(request, next) {
-          if (!request.url.startsWith("api/")) {
+          if (!request.url.includes("/api/")) {
             return next.handle(request);
           }
 
@@ -1259,6 +1259,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _shared_dto_error_error_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! ../../../../../shared/dto/error/error-actions */
     "../shared/dto/error/error-actions.ts");
+    /* harmony import */
+
+
+    var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ../../../environments/environment */
+    "./src/environments/environment.ts");
 
     var SocketService = /*#__PURE__*/function () {
       function SocketService() {
@@ -1273,7 +1279,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function init() {
           var _this4 = this;
 
-          this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__();
+          this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].socketUrl);
           this.socket.on('connect', function () {
             return _this4.isConnectedSubject$.next(true);
           });
@@ -1349,7 +1355,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function patchWildcardEvent() {
           // tslint:disable-next-line: no-string-literal
           var oldOnEvent = this.socket['onevent'];
-          var that = this; // tslint:disable-next-line: only-arrow-functions tslint:disable-next-line: no-string-literal
+          var that = this; // tslint:disable-next-line: only-arrow-functions disable-next-line: no-string-literal disable-next-line: space-before-function-paren
 
           this.socket['onevent'] = function () {
             var event = arguments[0].data;
@@ -2322,7 +2328,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! ../../environments/environment */
+    "./src/environments/environment.ts");
+    /* harmony import */
+
+
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! @angular/common/http */
     "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 
@@ -2331,7 +2343,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         _classCallCheck(this, GamesService);
 
         this.httpClient = httpClient;
-        this.apiBaseUrl = 'api/games';
+        this.apiBaseUrl = "".concat(_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl, "games");
       }
 
       _createClass(GamesService, [{
@@ -2359,7 +2371,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }();
 
     GamesService.ɵfac = function GamesService_Factory(t) {
-      return new (t || GamesService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]));
+      return new (t || GamesService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]));
     };
 
     GamesService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
@@ -2373,7 +2385,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"]
       }], function () {
         return [{
-          type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]
+          type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
         }];
       }, null);
     })();
@@ -4392,7 +4404,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     var environment = {
       production: false,
-      supportedLanguages: ['en', 'ru', 'ua']
+      supportedLanguages: ['en', 'ru', 'ua'],
+      apiUrl: 'http://localhost:3000/api/',
+      socketUrl: 'ws://localhost:3000/socket.io'
     };
     /***/
   },

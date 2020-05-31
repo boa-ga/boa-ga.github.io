@@ -493,7 +493,7 @@ class ErrorInterceptor {
     intercept(request, next) {
         return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])((response) => {
             const serverError = response.error;
-            this.notificationService.showMessage(serverError.errorMessage);
+            this.notificationService.showMessage(serverError.errorMessage || response.message);
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["throwError"])(response);
         }));
     }
@@ -529,14 +529,14 @@ class TokenInterceptor {
         this.authService = authService;
     }
     intercept(request, next) {
-        if (!request.url.startsWith(`api/`)) {
+        if (!request.url.includes(`/api/`)) {
             return next.handle(request);
         }
-        return this.authService.connectionId$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["switchMap"])(connectionId => {
+        return this.authService.connectionId$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["switchMap"])((connectionId) => {
             request = request.clone({
                 setHeaders: {
-                    Authorization: `Custom ${connectionId}`
-                }
+                    Authorization: `Custom ${connectionId}`,
+                },
             });
             return next.handle(request);
         }));
@@ -648,6 +648,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _shared_dto_error_error_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../shared/dto/error/error-actions */ "../shared/dto/error/error-actions.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+
 
 
 
@@ -662,7 +664,7 @@ class SocketService {
         return this.isConnectedSubject$.asObservable();
     }
     init() {
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__();
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].socketUrl);
         this.socket.on('connect', () => this.isConnectedSubject$.next(true));
         this.socket.on('disconnect', () => this.isConnectedSubject$.next(false));
         this.patchWildcardEvent();
@@ -701,7 +703,7 @@ class SocketService {
         // tslint:disable-next-line: no-string-literal
         const oldOnEvent = this.socket['onevent'];
         const that = this;
-        // tslint:disable-next-line: only-arrow-functions tslint:disable-next-line: no-string-literal
+        // tslint:disable-next-line: only-arrow-functions disable-next-line: no-string-literal disable-next-line: space-before-function-paren
         this.socket['onevent'] = function () {
             const event = arguments[0].data;
             if (event[0] === 'exception') {
@@ -1173,14 +1175,16 @@ const gamesRoutes = [
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GamesService", function() { return GamesService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
+
 
 
 
 class GamesService {
     constructor(httpClient) {
         this.httpClient = httpClient;
-        this.apiBaseUrl = 'api/games';
+        this.apiBaseUrl = `${_environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].apiUrl}games`;
     }
     getAllRunningGames() {
         return this.httpClient.get(`${this.apiBaseUrl}`);
@@ -1196,11 +1200,11 @@ class GamesService {
         });
     }
 }
-GamesService.ɵfac = function GamesService_Factory(t) { return new (t || GamesService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
+GamesService.ɵfac = function GamesService_Factory(t) { return new (t || GamesService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"])); };
 GamesService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: GamesService, factory: GamesService.ɵfac });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](GamesService, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"]
-    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }]; }, null); })();
+    }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }]; }, null); })();
 
 
 /***/ }),
@@ -4036,6 +4040,8 @@ __webpack_require__.r(__webpack_exports__);
 const environment = {
     production: false,
     supportedLanguages: ['en', 'ru', 'ua'],
+    apiUrl: 'http://localhost:3000/api/',
+    socketUrl: 'ws://localhost:3000/socket.io',
 };
 
 
