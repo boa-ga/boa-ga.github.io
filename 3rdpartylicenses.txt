@@ -165,9 +165,6 @@ THE SOFTWARE.
 @ngx-translate/core
 MIT
 
-@ngx-translate/http-loader
-MIT
-
 after
 MIT
 Copyright (c) 2011 Raynos.
