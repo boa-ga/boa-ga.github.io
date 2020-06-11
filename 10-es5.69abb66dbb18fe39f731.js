@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[10],{"fs5/":function(a){a.exports=JSON.parse('{"Cards in hands":"Cards in hands (ua)","Cards on table":"Cards on table (ua)","Level":"Level (ua)","Me":"Me (ua)"}')}}]);
