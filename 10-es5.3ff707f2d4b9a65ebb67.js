@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[10],{"fs5/":function(n){n.exports=JSON.parse('{"Cards in hands":"\u041a\u0430\u0440\u0442\u043a\u0438 \u0432 \u0440\u0443\u043a\u0430\u0445","Cards on table":"\u041a\u0430\u0440\u0442\u043a\u0438 \u043d\u0430 \u0441\u0442\u043e\u043b\u0456","Level":"\u0420\u0456\u0432\u0435\u043d\u044c","Me":"\u042f"}')}}]);

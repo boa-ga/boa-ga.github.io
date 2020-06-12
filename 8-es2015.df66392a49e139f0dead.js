@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{Jnu8:function(n){n.exports=JSON.parse('{"Cards in hands":"Cards in hands (en)","Cards on table":"Cards on table (en)","Level":"Level (en)","Me":"Me (en)"}')}}]);
